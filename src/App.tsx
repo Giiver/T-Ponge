@@ -50,7 +50,9 @@ function App() {
         db.settings.get('main')
       ])
       
-      setProducts(productsData)
+      // Sort products by sortOrder (T-Ponge first, then Recharge)
+      const sortedProducts = productsData.sort((a, b) => (a.sortOrder || 999) - (b.sortOrder || 999))
+      setProducts(sortedProducts)
       setSettings(settingsData || null)
     } catch (error) {
       console.error('Failed to load data:', error)
@@ -184,21 +186,22 @@ function App() {
     <div className="fade-in">
       <Header
         salesPoint={settings?.salesPoint || 'Configuration requise'}
-        onExport={handleExport}
         onSettings={() => setIsSettingsOpen(true)}
         isOnline={isOnline}
       />
       
       <main className="main-content">
-        <div className="grid grid-2" style={{ gap: '2rem', height: '100%' }}>
-          <div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+          {/* Catalogue des produits - 100% largeur */}
+          <div style={{ width: '100%' }}>
             <h2 style={{ marginBottom: '1.5rem', color: '#1e293b' }}>
               Catalogue des produits
             </h2>
             <ProductGrid products={products} onAddToCart={addToCart} />
           </div>
           
-          <div>
+          {/* Panier en dessous */}
+          <div style={{ width: '100%' }}>
             <Cart
               items={cartItems}
               onUpdateQuantity={updateCartItemQuantity}
@@ -223,6 +226,7 @@ function App() {
         settings={settings}
         onClose={() => setIsSettingsOpen(false)}
         onSave={handleSaveSettings}
+        onExport={handleExport}
       />
     </div>
   )

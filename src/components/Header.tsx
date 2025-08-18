@@ -2,12 +2,11 @@ import React from 'react'
 
 interface HeaderProps {
   salesPoint: string
-  onExport: () => void
   onSettings: () => void
   isOnline: boolean
 }
 
-export const Header: React.FC<HeaderProps> = ({ salesPoint, onExport, onSettings, isOnline }) => {
+export const Header: React.FC<HeaderProps> = ({ salesPoint, onSettings, isOnline }) => {
   return (
     <header className="header">
       <div>
@@ -23,10 +22,6 @@ export const Header: React.FC<HeaderProps> = ({ salesPoint, onExport, onSettings
         
         <button className="btn btn-secondary" onClick={onSettings}>
           ⚙️ Paramètres
-        </button>
-        
-        <button className="btn btn-success" onClick={onExport}>
-          📊 Exporter CSV
         </button>
       </div>
     </header>

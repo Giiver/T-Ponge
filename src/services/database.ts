@@ -46,18 +46,27 @@ export const initializeDatabase = async () => {
       })
     }
 
-    // Check if we need to update to T-Ponge only products
-    const productCount = await db.products.count()
-    const hasTPongeProducts = await db.products.where('sku').equals('TPONGE001').count()
+    // Check if products need sortOrder field - force reset if missing
+    const existingProducts = await db.products.toArray()
+    const needsReset = existingProducts.length === 0 || 
+                      existingProducts.some(p => p.sortOrder === undefined) ||
+                      existingProducts.length !== 2
     
-    // Force update if we have more than 2 products or don't have T-Ponge products
-    if (productCount === 0 || hasTPongeProducts === 0 || productCount > 2) {
-      // Clear all existing products to ensure we only have T-Ponge products
-      if (productCount > 0) {
-        await db.products.clear()
-        console.log('Cleared all products to update with T-Ponge products only')
-      }
-      // Initialize T-Ponge products only
+    if (needsReset) {
+      await db.products.clear()
+      console.log('Resetting products to ensure correct order with sortOrder field')
+    }
+    
+    // TEMPORARY: Force reset for development - remove after testing
+    if (existingProducts.length > 0 && existingProducts[0].label?.includes('Recharge')) {
+      await db.products.clear()
+      console.log('FORCE RESET: Recharge was first, resetting order')
+    }
+    
+    // Check if we need to add products after any reset
+    const currentProductCount = await db.products.count()
+    if (currentProductCount === 0) {
+      // Initialize T-Ponge products only (T-Ponge first, then Recharge)
       const defaultProducts: Product[] = [
         { 
           sku: 'TPONGE001', 
@@ -65,7 +74,8 @@ export const initializeDatabase = async () => {
           priceTTC: 12.99, 
           originalPrice: 15.99,
           images: [`${import.meta.env.BASE_URL}t-ponge.PNG`], 
-          isActive: true 
+          isActive: true,
+          sortOrder: 1
         },
         { 
           sku: 'RECHARGE001', 
@@ -73,7 +83,8 @@ export const initializeDatabase = async () => {
           priceTTC: 4.99, 
           originalPrice: 7.99,
           images: [`${import.meta.env.BASE_URL}recharge-1.PNG`, `${import.meta.env.BASE_URL}recharge-2.PNG`], 
-          isActive: true 
+          isActive: true,
+          sortOrder: 2
         },
       ]
       await db.products.bulkAdd(defaultProducts)

@@ -144,12 +144,21 @@ body {
   grid-template-columns: repeat(4, 1fr);
 }
 
-/* Product grid for tablets */
+/* FORCE single column layout on ALL screen sizes */
+.products-grid {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 1.5rem;
+  max-width: none !important; /* Full width */
+  margin: 0;
+  width: 100% !important;
+}
+
+/* Larger gap on bigger screens */
 @media (min-width: 768px) {
   .products-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1.5rem;
+    gap: 2rem;
+    padding: 0 2rem; /* Add some padding on larger screens */
   }
 }
 
@@ -161,6 +170,8 @@ body {
   text-align: center;
   cursor: pointer;
   transition: all 0.2s ease;
+  width: 100% !important;
+  max-width: none !important;
   min-height: 200px;
   display: flex;
   flex-direction: column;
@@ -423,11 +434,21 @@ body {
 @media (max-width: 768px) {
   body {
     overflow-y: auto; /* Allow scrolling on mobile */
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+    height: auto;
   }
   
   #root {
     height: auto; /* Allow content to determine height on mobile */
     min-height: 100vh;
+  }
+  
+  /* PWA specific fixes */
+  @media (display-mode: standalone) {
+    body {
+      padding-top: env(safe-area-inset-top);
+      padding-bottom: env(safe-area-inset-bottom);
+    }
   }
   
   .grid-2,

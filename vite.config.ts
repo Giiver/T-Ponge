@@ -31,7 +31,7 @@ export default defineConfig({
         description: 'Application de prise de commandes hors-ligne pour foires',
         theme_color: '#2563eb',
         background_color: '#ffffff',
-        display: 'fullscreen',
+        display: 'standalone',
         orientation: 'landscape-primary',
         start_url: './',
         scope: './',

@@ -6,13 +6,15 @@ interface SettingsModalProps {
   settings: AppSettings | null
   onClose: () => void
   onSave: (settings: Partial<AppSettings>) => void
+  onExport: () => void
 }
 
 export const SettingsModal: React.FC<SettingsModalProps> = ({
   isOpen,
   settings,
   onClose,
-  onSave
+  onSave,
+  onExport
 }) => {
   const [tabletId, setTabletId] = useState('')
   const [salesPoint, setSalesPoint] = useState('')
@@ -82,6 +84,26 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
             </p>
             <p style={{ fontSize: '0.9rem', color: '#64748b' }}>
               Format ID: {tabletId || 'TAB'}-YYYYMMDD-XXXX
+            </p>
+          </div>
+
+          <div style={{ 
+            background: '#f1f5f9', 
+            padding: '1rem', 
+            borderRadius: '8px', 
+            marginBottom: '1.5rem',
+            textAlign: 'center'
+          }}>
+            <button
+              type="button"
+              className="btn btn-success btn-large"
+              onClick={onExport}
+              style={{ width: '100%' }}
+            >
+              📊 Exporter CSV
+            </button>
+            <p style={{ fontSize: '0.9rem', color: '#64748b', marginTop: '0.5rem' }}>
+              Télécharger toutes les commandes au format CSV
             </p>
           </div>
 

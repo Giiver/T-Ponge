@@ -24,6 +24,7 @@ export interface Product {
   originalPrice?: number // Prix barré si en promotion
   images: string[] // URLs des images
   isActive: boolean
+  sortOrder?: number
 }
 
 export interface AppSettings {
