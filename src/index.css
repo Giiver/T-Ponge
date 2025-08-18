@@ -439,13 +439,17 @@ html {
 body {
   height: 100%;
   overflow: hidden; /* Body doesn't scroll */
+  position: fixed; /* Prevent iOS Safari address bar issues */
+  width: 100%;
 }
 
 #root {
   height: 100vh;
+  height: 100dvh; /* Dynamic viewport height for mobile */
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  position: relative;
 }
 
 /* Main content should be scrollable */
@@ -455,6 +459,8 @@ body {
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch; /* iOS smooth scrolling */
   overscroll-behavior: contain; /* Prevent bounce on iOS */
+  position: relative;
+  min-height: 0; /* Important for flex child scrolling */
 }
 
 /* Mobile specific fixes */
@@ -478,6 +484,32 @@ body {
       position: relative;
       z-index: 1;
     }
+  }
+}
+
+/* Portrait mode specific fixes */
+@media (orientation: portrait) and (max-width: 768px) {
+  body {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+  
+  #root {
+    height: 100vh !important;
+    height: 100dvh !important;
+    max-height: 100vh;
+    max-height: 100dvh;
+  }
+  
+  .main-content {
+    height: calc(100vh - 80px) !important; /* Subtract header height */
+    height: calc(100dvh - 80px) !important;
+    overflow-y: scroll !important;
+    -webkit-overflow-scrolling: touch !important;
+    touch-action: pan-y;
   }
 }
 
