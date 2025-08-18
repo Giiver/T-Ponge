@@ -430,17 +430,40 @@ body {
   background: currentColor;
 }
 
-/* Responsive design */
+/* Mobile scroll fixes for PWA */
+html {
+  height: 100%;
+  overflow: hidden; /* Prevent double scrollbars */
+}
+
+body {
+  height: 100%;
+  overflow: hidden; /* Body doesn't scroll */
+}
+
+#root {
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Main content should be scrollable */
+.main-content {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch; /* iOS smooth scrolling */
+  overscroll-behavior: contain; /* Prevent bounce on iOS */
+}
+
+/* Mobile specific fixes */
 @media (max-width: 768px) {
-  body {
-    overflow-y: auto; /* Allow scrolling on mobile */
-    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
-    height: auto;
-  }
-  
-  #root {
-    height: auto; /* Allow content to determine height on mobile */
-    min-height: 100vh;
+  /* Ensure touch scrolling works */
+  .main-content {
+    -webkit-overflow-scrolling: touch;
+    -webkit-transform: translateZ(0); /* Force hardware acceleration */
+    transform: translateZ(0);
   }
   
   /* PWA specific fixes */
@@ -449,8 +472,17 @@ body {
       padding-top: env(safe-area-inset-top);
       padding-bottom: env(safe-area-inset-bottom);
     }
+    
+    /* Fix iOS PWA scroll issues */
+    .main-content {
+      position: relative;
+      z-index: 1;
+    }
   }
-  
+}
+
+/* Additional mobile responsive rules */
+@media (max-width: 768px) {
   .grid-2,
   .grid-3,
   .grid-4 {
@@ -464,11 +496,6 @@ body {
     position: sticky;
     top: 0;
     z-index: 100;
-  }
-  
-  .main-content {
-    padding: 1rem;
-    flex: none; /* Don't use flex on mobile */
   }
   
   .grid {
