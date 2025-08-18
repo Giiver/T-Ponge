@@ -33,8 +33,8 @@ export default defineConfig({
         background_color: '#ffffff',
         display: 'fullscreen',
         orientation: 'landscape-primary',
-        start_url: '/T-Ponge/',
-        scope: '/T-Ponge/',
+        start_url: './',
+        scope: './',
         icons: [
           {
             src: 'pwa-192x192.png',
