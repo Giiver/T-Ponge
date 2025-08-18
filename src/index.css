@@ -566,58 +566,55 @@ body {
   }
 }
 
-/* iPad iOS 16 specific fixes - avoid dvh units that are buggy */
+/* iPad specific fixes - iPad has different dimensions */
 @media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
-  /* Reset body completely for iOS 16 iPad */
   body {
-    position: relative !important;
-    top: auto !important;
-    left: auto !important;
-    right: auto !important;
-    bottom: auto !important;
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     overflow: hidden !important;
-    height: 100vh !important;
-    width: 100vw !important;
+    -webkit-overflow-scrolling: auto;
   }
   
   #root {
     height: 100vh !important;
-    /* Remove dvh for iOS 16 compatibility */
+    height: 100dvh !important;
     overflow: hidden !important;
     display: flex !important;
     flex-direction: column !important;
-    position: relative !important;
   }
   
   .main-content {
-    /* Use absolute positioning for iOS 16 iPad */
-    position: absolute !important;
-    top: 80px !important; /* Header height */
-    left: 0 !important;
-    right: 0 !important;
-    bottom: 0 !important;
-    overflow-y: scroll !important;
+    flex: 1 !important;
+    overflow-y: auto !important;
     overflow-x: hidden !important;
     -webkit-overflow-scrolling: touch !important;
-    padding: 1rem !important;
-    padding-bottom: 3rem !important;
+    -webkit-transform: translateZ(0) !important;
+    transform: translateZ(0) !important;
+    touch-action: pan-y !important;
+    position: relative !important;
+    z-index: 1 !important;
+    padding-bottom: 2rem !important;
   }
   
-  /* Header fixed positioning */
-  .header {
-    position: fixed !important;
-    top: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-    height: 80px !important;
-    z-index: 1000 !important;
-    background: white !important;
-    border-bottom: 1px solid #e2e8f0 !important;
+  /* Force scroll on iPad Safari */
+  .main-content::-webkit-scrollbar {
+    display: none;
   }
   
-  /* Force content to be scrollable */
+  /* Safari iPad momentum scrolling fix */
+  .main-content {
+    -webkit-overflow-scrolling: touch !important;
+    -webkit-transform: translate3d(0,0,0) !important;
+    transform: translate3d(0,0,0) !important;
+    will-change: scroll-position !important;
+  }
+  
+  /* Alternative scroll container for stubborn iPads */
   .main-content > div {
-    min-height: 100vh !important;
+    min-height: calc(100vh + 1px);
   }
 }
 
