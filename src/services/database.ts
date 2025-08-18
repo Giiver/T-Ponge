@@ -64,7 +64,7 @@ export const initializeDatabase = async () => {
           label: 'T-Ponge - Éponge Révolutionnaire', 
           priceTTC: 12.99, 
           originalPrice: 15.99,
-          images: ['/t-ponge.PNG'], 
+          images: [`${import.meta.env.BASE_URL}t-ponge.PNG`], 
           isActive: true 
         },
         { 
@@ -72,7 +72,7 @@ export const initializeDatabase = async () => {
           label: 'Recharge T-Ponge', 
           priceTTC: 4.99, 
           originalPrice: 7.99,
-          images: ['/recharge-1.PNG', '/recharge-2.PNG'], 
+          images: [`${import.meta.env.BASE_URL}recharge-1.PNG`, `${import.meta.env.BASE_URL}recharge-2.PNG`], 
           isActive: true 
         },
       ]
