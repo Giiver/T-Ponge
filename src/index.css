@@ -566,6 +566,58 @@ body {
   }
 }
 
+/* iPad specific fixes - iPad has different dimensions */
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+  body {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden !important;
+    -webkit-overflow-scrolling: auto;
+  }
+  
+  #root {
+    height: 100vh !important;
+    height: 100dvh !important;
+    overflow: hidden !important;
+    display: flex !important;
+    flex-direction: column !important;
+  }
+  
+  .main-content {
+    flex: 1 !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    -webkit-overflow-scrolling: touch !important;
+    -webkit-transform: translateZ(0) !important;
+    transform: translateZ(0) !important;
+    touch-action: pan-y !important;
+    position: relative !important;
+    z-index: 1 !important;
+    padding-bottom: 2rem !important;
+  }
+  
+  /* Force scroll on iPad Safari */
+  .main-content::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* Safari iPad momentum scrolling fix */
+  .main-content {
+    -webkit-overflow-scrolling: touch !important;
+    -webkit-transform: translate3d(0,0,0) !important;
+    transform: translate3d(0,0,0) !important;
+    will-change: scroll-position !important;
+  }
+  
+  /* Alternative scroll container for stubborn iPads */
+  .main-content > div {
+    min-height: calc(100vh + 1px);
+  }
+}
+
 /* Additional mobile responsive rules */
 @media (max-width: 768px) {
   .grid-2,
