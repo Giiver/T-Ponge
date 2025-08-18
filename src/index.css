@@ -310,6 +310,7 @@ body {
   border-radius: 12px;
   padding: 1.5rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin-bottom: 3rem; /* Add bottom margin to prevent cutoff */
 }
 
 .cart-item {
@@ -461,6 +462,7 @@ body {
   overscroll-behavior: contain; /* Prevent bounce on iOS */
   position: relative;
   min-height: 0; /* Important for flex child scrolling */
+  padding-bottom: 2rem; /* Add bottom padding to prevent content cutoff */
 }
 
 /* Universal mobile scroll fix - works on all orientations */
@@ -475,6 +477,7 @@ body {
     touch-action: pan-y !important;
     position: relative !important;
     z-index: 1 !important;
+    padding-bottom: 4rem !important; /* Extra padding on mobile */
   }
   
   /* Ensure body is properly constrained */
@@ -483,6 +486,11 @@ body {
     width: 100% !important;
     height: 100% !important;
     overflow: hidden !important;
+  }
+  
+  /* Extra margin for cart on mobile */
+  .cart {
+    margin-bottom: 4rem !important;
   }
   
   /* PWA specific fixes */
