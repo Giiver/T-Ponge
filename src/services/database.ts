@@ -50,7 +50,7 @@ export const initializeDatabase = async () => {
     const existingProducts = await db.products.toArray()
     const needsReset = existingProducts.length === 0 || 
                       existingProducts.some(p => p.sortOrder === undefined) ||
-                      existingProducts.length !== 3
+                      existingProducts.length !== 4
     
     if (needsReset) {
       await db.products.clear()
@@ -66,7 +66,7 @@ export const initializeDatabase = async () => {
     // Check if we need to add products after any reset
     const currentProductCount = await db.products.count()
     if (currentProductCount === 0) {
-      // Initialize T-Ponge products (T-Ponge, Recharge, Pack)
+      // Initialize T-Ponge products (T-Ponge, Recharge, Pack, Livraison)
       const defaultProducts: Product[] = [
         { 
           sku: 'TPONGE001', 
@@ -94,6 +94,14 @@ export const initializeDatabase = async () => {
           images: [`${import.meta.env.BASE_URL}t-ponge.PNG`], 
           isActive: true,
           sortOrder: 3
+        },
+        { 
+          sku: 'LIVRAISON001', 
+          label: 'Livraison', 
+          priceTTC: 4.90, 
+          images: [], 
+          isActive: true,
+          sortOrder: 4
         },
       ]
       await db.products.bulkAdd(defaultProducts)
