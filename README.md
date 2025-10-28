@@ -50,7 +50,7 @@ npm run ci
 1. Sélectionner des produits dans le catalogue
 2. Ajuster les quantités dans le panier
 3. Cliquer sur "Finaliser la commande"
-4. Remplir les informations client (optionnel)
+4. Remplir les informations client (Nom, Prénom, Email, Téléphone, Adresse, Notes)
 5. Confirmer la commande
 
 ### Export des données
@@ -70,7 +70,10 @@ Colonnes exportées :
 - Date Création
 - Point de Vente
 - Nom Client
+- Prénom Client
+- Email Client
 - Téléphone Client
+- Adresse Client
 - SKU Produit
 - Libellé Produit
 - Quantité

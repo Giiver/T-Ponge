@@ -105,7 +105,7 @@ function App() {
     setCartItems([])
   }
 
-  const handleCheckout = async (customerName?: string, customerPhone?: string, notes?: string) => {
+  const handleCheckout = async (customerName?: string, customerFirstName?: string, customerEmail?: string, customerPhone?: string, customerAddress?: string, notes?: string) => {
     try {
       const orderId = await generateOrderId()
       const total = cartItems.reduce((sum, item) => sum + item.lineTotalTTC, 0)
@@ -123,7 +123,10 @@ function App() {
         totalTTC: total,
         salesPoint: settings?.salesPoint || 'Point de vente non configuré',
         customerName,
+        customerFirstName,
+        customerEmail,
         customerPhone,
+        customerAddress,
         notes
       }
 

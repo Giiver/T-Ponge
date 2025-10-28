@@ -6,7 +6,7 @@ interface CheckoutModalProps {
   items: CartItem[]
   total: number
   onClose: () => void
-  onConfirm: (customerName?: string, customerPhone?: string, notes?: string) => void
+  onConfirm: (customerName?: string, customerFirstName?: string, customerEmail?: string, customerPhone?: string, customerAddress?: string, notes?: string) => void
 }
 
 export const CheckoutModal: React.FC<CheckoutModalProps> = ({
@@ -17,7 +17,10 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
   onConfirm
 }) => {
   const [customerName, setCustomerName] = useState('')
+  const [customerFirstName, setCustomerFirstName] = useState('')
+  const [customerEmail, setCustomerEmail] = useState('')
   const [customerPhone, setCustomerPhone] = useState('')
+  const [customerAddress, setCustomerAddress] = useState('')
   const [notes, setNotes] = useState('')
 
   if (!isOpen) return null
@@ -26,12 +29,18 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
     e.preventDefault()
     onConfirm(
       customerName.trim() || undefined,
+      customerFirstName.trim() || undefined,
+      customerEmail.trim() || undefined,
       customerPhone.trim() || undefined,
+      customerAddress.trim() || undefined,
       notes.trim() || undefined
     )
     // Reset form
     setCustomerName('')
+    setCustomerFirstName('')
+    setCustomerEmail('')
     setCustomerPhone('')
+    setCustomerAddress('')
     setNotes('')
   }
 
@@ -75,19 +84,43 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
 
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label htmlFor="customerName">Nom du client (optionnel)</label>
+            <label htmlFor="customerName">Nom :</label>
             <input
               type="text"
               id="customerName"
               className="input"
               value={customerName}
               onChange={e => setCustomerName(e.target.value)}
-              placeholder="Nom du client"
+              placeholder="Nom"
             />
           </div>
 
           <div className="form-group">
-            <label htmlFor="customerPhone">Téléphone (optionnel)</label>
+            <label htmlFor="customerFirstName">Prénom :</label>
+            <input
+              type="text"
+              id="customerFirstName"
+              className="input"
+              value={customerFirstName}
+              onChange={e => setCustomerFirstName(e.target.value)}
+              placeholder="Prénom"
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="customerEmail">Mail :</label>
+            <input
+              type="email"
+              id="customerEmail"
+              className="input"
+              value={customerEmail}
+              onChange={e => setCustomerEmail(e.target.value)}
+              placeholder="Email"
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="customerPhone">Téléphone :</label>
             <input
               type="tel"
               id="customerPhone"
@@ -99,7 +132,20 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
           </div>
 
           <div className="form-group">
-            <label htmlFor="notes">Notes (optionnel)</label>
+            <label htmlFor="customerAddress">Adresse :</label>
+            <textarea
+              id="customerAddress"
+              className="input"
+              value={customerAddress}
+              onChange={e => setCustomerAddress(e.target.value)}
+              placeholder="Adresse complète"
+              rows={2}
+              style={{ resize: 'vertical', minHeight: '60px' }}
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="notes">Notes :</label>
             <textarea
               id="notes"
               className="input"

@@ -14,7 +14,10 @@ export interface Order {
   salesPoint: string
   notes?: string
   customerName?: string
+  customerFirstName?: string
+  customerEmail?: string
   customerPhone?: string
+  customerAddress?: string
 }
 
 export interface Product {

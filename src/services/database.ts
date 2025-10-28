@@ -50,7 +50,7 @@ export const initializeDatabase = async () => {
     const existingProducts = await db.products.toArray()
     const needsReset = existingProducts.length === 0 || 
                       existingProducts.some(p => p.sortOrder === undefined) ||
-                      existingProducts.length !== 2
+                      existingProducts.length !== 3
     
     if (needsReset) {
       await db.products.clear()
@@ -66,12 +66,12 @@ export const initializeDatabase = async () => {
     // Check if we need to add products after any reset
     const currentProductCount = await db.products.count()
     if (currentProductCount === 0) {
-      // Initialize T-Ponge products only (T-Ponge first, then Recharge)
+      // Initialize T-Ponge products (T-Ponge, Recharge, Pack)
       const defaultProducts: Product[] = [
         { 
           sku: 'TPONGE001', 
           label: 'T-Ponge - Éponge Révolutionnaire', 
-          priceTTC: 12.99, 
+          priceTTC: 12.90, 
           originalPrice: 15.99,
           images: [`${import.meta.env.BASE_URL}t-ponge.PNG`], 
           isActive: true,
@@ -80,11 +80,20 @@ export const initializeDatabase = async () => {
         { 
           sku: 'RECHARGE001', 
           label: 'Recharge T-Ponge', 
-          priceTTC: 4.99, 
+          priceTTC: 4.90, 
           originalPrice: 7.99,
           images: [`${import.meta.env.BASE_URL}recharge-1.PNG`, `${import.meta.env.BASE_URL}recharge-2.PNG`], 
           isActive: true,
           sortOrder: 2
+        },
+        { 
+          sku: 'PACK001', 
+          label: 'Pack T-Ponge - Éponge + Recharge', 
+          priceTTC: 16.90, 
+          originalPrice: 23.98,
+          images: [`${import.meta.env.BASE_URL}t-ponge.PNG`], 
+          isActive: true,
+          sortOrder: 3
         },
       ]
       await db.products.bulkAdd(defaultProducts)
@@ -123,7 +132,10 @@ export const exportOrdersToCSV = async (): Promise<string> => {
     'Date Création',
     'Point de Vente',
     'Nom Client',
+    'Prénom Client',
+    'Email Client',
     'Téléphone Client',
+    'Adresse Client',
     'SKU Produit',
     'Libellé Produit',
     'Quantité',
@@ -143,7 +155,10 @@ export const exportOrdersToCSV = async (): Promise<string> => {
         `"${order.createdAt}"`,
         `"${order.salesPoint}"`,
         `"${order.customerName || ''}"`,
+        `"${order.customerFirstName || ''}"`,
+        `"${order.customerEmail || ''}"`,
         `"${order.customerPhone || ''}"`,
+        `"${order.customerAddress || ''}"`,
         '""',
         '""',
         '0',
@@ -159,7 +174,10 @@ export const exportOrdersToCSV = async (): Promise<string> => {
           `"${order.createdAt}"`,
           `"${order.salesPoint}"`,
           `"${order.customerName || ''}"`,
+          `"${order.customerFirstName || ''}"`,
+          `"${order.customerEmail || ''}"`,
           `"${order.customerPhone || ''}"`,
+          `"${order.customerAddress || ''}"`,
           `"${item.productSku}"`,
           `"${item.productLabel}"`,
           item.qty.toString(),
